@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<h1>🌍 Air Quality Report</h1>
+
+<!-- Form to enter city -->
+<form method="POST">
+    <label for="city">Enter a city name </label>
+    <input type="text" id="city" name="city" required>
+    <button type="submit">Get Air Quality</button>
+</form>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+{% if data %}
+<div class="report-card">
+    <h2>📍 {{ data.City }}</h2>
+    <p class="report-subtitle">🌎 Latitude: {{ data.Latitude }} | 🌍 Longitude: {{ data.Longitude }}</p>
+    <p class="report-subtitle">📅 Last Updated: {{ data.DateTime }}</p>
+
+    <div class="aqi-box">
+        <p class="aqi-value aqi {{ 'good' if data.AQI == 1 else
+                                  'moderate' if data.AQI == 2 else
+                                  'unhealthy' if data.AQI == 3 else
+                                  'very-unhealthy' if data.AQI == 4 else
+                                  'hazardous' }}">
+            AQI: {{ data.AQI }} - {{ 'Good' if data.AQI == 1 else
+                                     'Moderate' if data.AQI == 2 else
+                                     'Unhealthy' if data.AQI == 3 else
+                                     'Very Unhealthy' if data.AQI == 4 else
+                                     'Hazardous' }}
+        </p>
+    </div>
+
+    <table class="pollutant-table">
+        <tr>
+            <th>Pollutant</th> <th>Value (µg/m³)</th> <th>Health Impact</th>
+        </tr>
+        <tr>
+            <td>🚗 Carbon Monoxide (CO)</td> <td>{{ data.CO }}</td> <td class="impact">🛑 Can cause dizziness & nausea</td>
+        </tr>
+        <tr>
+            <td>🏭 Nitrogen Dioxide (NO2)</td> <td>{{ data.NO2 }}</td> <td class="impact">😷 Irritates lungs, causes coughing</td>
+        </tr>
+        <tr>
+            <td>🌞 Ozone (O3)</td> <td>{{ data.O3 }}</td> <td class="impact">🔆 Can trigger asthma attacks</td>
+        </tr>
+        <tr>
+            <td>💨 Sulfur Dioxide (SO2)</td> <td>{{ data.SO2 }}</td> <td class="impact">🌬️ Can cause breathing issues</td>
+        </tr>
+        <tr>
+            <td>🧪 Ammonia (NH3)</td> <td>{{ data.NH3 }}</td> <td class="impact">🧼 Eye & skin irritation</td>
+        </tr>
+    </table>
+</div>
+
+<div class="aqi-info">
+    <h3>💡 AQI HEALTH GUIDE</h3>
+    <div class="aqi-levels">
+        <div class="aqi-badge good">
+            <span class="aqi-title">Good (1)</span>
+            <span class="aqi-desc">Air quality is excellent! 🌿</span>
+        </div>
+        <div class="aqi-badge moderate">
+            <span class="aqi-title">Moderate (2)</span>
+            <span class="aqi-desc">Air is acceptable but may affect sensitive individuals.</span>
+        </div>
+        <div class="aqi-badge unhealthy">
+            <span class="aqi-title">Unhealthy (3)</span>
+            <span class="aqi-desc">Health warnings for sensitive groups.</span>
+        </div>
+        <div class="aqi-badge very-unhealthy">
+            <span class="aqi-title">Very Unhealthy (4)</span>
+            <span class="aqi-desc">Health alert—everyone may experience serious effects.</span>
+        </div>
+        <div class="aqi-badge hazardous">
+            <span class="aqi-title">Hazardous (5)</span>
+            <span class="aqi-desc">Emergency conditions—avoid outdoor activities! 🚨</span>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+</body>
+</html>

@@ -112,4 +112,4 @@ python app.py
 ## 📧 Contact
 For inquiries or suggestions, feel free to reach out:
 - **Email:** simimathew1898@gmail.com
-- **GitHub:** [your-github-profile](https://github.com/simimathew1898)
+- **GitHub:** https://github.com/simimathew1898
